@@ -1,4 +1,4 @@
-Country,Region,HappinessRank,HappinessScore,Logged GDP per capita,Social support,Healthy life expectancy,Freedom to make life choices,Generosity,Perceptions of corruption
+Country,Region,HappinessRank,HappinessScore,LoggedGDPpercapita,Social support,Healthy life expectancy,Freedom to make life choices,Generosity,Perceptions of corruption
 Finland,Western Europe,1,7.808700085,10.63926697,0.954329729,71.9008255,0.949172199,-0.059482019,0.195444584
 Denmark,Western Europe,2,7.645599842,10.77400112,0.955990791,72.40250397,0.951444268,0.066201776,0.168489456
 Switzerland,Western Europe,3,7.559899807,10.97993279,0.942846596,74.10244751,0.921336651,0.105911039,0.303728431
