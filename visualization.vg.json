@@ -1,0 +1,271 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "width": 800,
+  "height": 600,
+  "title": {
+    "text": "Total Alcohol Consumption Happiness Rank by Region",
+    "frame": "group"
+  },
+  "style": "cell",
+  "data": [
+    {"name": "region_select_store"},
+    {
+      "name": "source_0",
+      "url": "https://mdudley98.github.io/FIT3179/alcoholHappiness.csv",
+      "format": {"type": "csv", "delimiter": ","},
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"HappinessRank\"]) && isFinite(+datum[\"HappinessRank\"]) && isValid(datum[\"TotalAlcPerCapita\"]) && isFinite(+datum[\"TotalAlcPerCapita\"])"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "name": "unit",
+      "value": {},
+      "on": [
+        {"events": "mousemove", "update": "isTuple(group()) ? group() : unit"}
+      ]
+    },
+    {
+      "name": "region_select_Region_legend",
+      "value": null,
+      "on": [
+        {
+          "events": [
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Region_legend_symbols"
+            },
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Region_legend_labels"
+            },
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Region_legend_entries"
+            }
+          ],
+          "update": "datum.value || item().items[0].items[0].datum.value",
+          "force": true
+        },
+        {
+          "events": [{"source": "view", "type": "click"}],
+          "update": "!event.item || !datum ? null : region_select_Region_legend",
+          "force": true
+        }
+      ]
+    },
+    {
+      "name": "region_select",
+      "update": "vlSelectionResolve(\"region_select_store\", \"union\")"
+    },
+    {
+      "name": "region_select_tuple",
+      "update": "region_select_Region_legend !== null ? {fields: region_select_tuple_fields, values: [region_select_Region_legend]} : null"
+    },
+    {
+      "name": "region_select_tuple_fields",
+      "value": [{"type": "E", "field": "Region"}]
+    },
+    {
+      "name": "region_select_modify",
+      "on": [
+        {
+          "events": {"signal": "region_select_tuple"},
+          "update": "modify(\"region_select_store\", region_select_tuple, true)"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "name": "layer_0_marks",
+      "type": "symbol",
+      "style": ["circle"],
+      "interactive": true,
+      "from": {"data": "source_0"},
+      "encode": {
+        "update": {
+          "opacity": [
+            {
+              "test": "!(length(data(\"region_select_store\"))) || (vlSelectionTest(\"region_select_store\", datum))",
+              "value": 0.8
+            },
+            {"value": 0.2}
+          ],
+          "size": {"value": "60"},
+          "fill": {"scale": "color", "field": "Region"},
+          "tooltip": {
+            "signal": "{\"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"Happiness Rank\": isValid(datum[\"HappinessRank\"]) ? datum[\"HappinessRank\"] : \"\"+datum[\"HappinessRank\"], \"Total Consumption (per capita)\": format(datum[\"TotalAlcPerCapita\"], \"\")}"
+          },
+          "ariaRoleDescription": {"value": "circle"},
+          "description": {
+            "signal": "\"HappinessRank: \" + (format(datum[\"HappinessRank\"], \"\")) + \"; TotalAlcPerCapita: \" + (format(datum[\"TotalAlcPerCapita\"], \"\")) + \"; Region: \" + (isValid(datum[\"Region\"]) ? datum[\"Region\"] : \"\"+datum[\"Region\"]) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; Happiness Rank: \" + (isValid(datum[\"HappinessRank\"]) ? datum[\"HappinessRank\"] : \"\"+datum[\"HappinessRank\"]) + \"; Total Consumption (per capita): \" + (format(datum[\"TotalAlcPerCapita\"], \"\"))"
+          },
+          "x": {"scale": "x", "field": "HappinessRank"},
+          "y": {"scale": "y", "field": "TotalAlcPerCapita"},
+          "shape": {"value": "circle"}
+        }
+      }
+    },
+    {
+      "name": "layer_1_marks",
+      "type": "text",
+      "style": ["text"],
+      "interactive": true,
+      "from": {"data": "source_0"},
+      "encode": {
+        "update": {
+          "align": {"value": "left"},
+          "baseline": {"value": "top"},
+          "dx": {"value": 12},
+          "fontSize": {"value": 11},
+          "fontStyle": {"value": "italic"},
+          "fill": {"value": "black"},
+          "opacity": [
+            {
+              "test": "datum['Country'] == 'Australia' || datum['Country'] == 'Singapore'  || datum['Country'] == 'Syria' || datum['Country'] == 'China'|| datum['Country'] == 'Czech Republic'|| datum['Country'] == 'Denmark' || datum['Country'] == 'New Zealand' ",
+              "value": 1
+            },
+            {"value": 0}
+          ],
+          "tooltip": {
+            "signal": "{\"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"Happiness Rank\": isValid(datum[\"HappinessRank\"]) ? datum[\"HappinessRank\"] : \"\"+datum[\"HappinessRank\"], \"Total Consumption (per capita)\": format(datum[\"TotalAlcPerCapita\"], \"\")}"
+          },
+          "description": {
+            "signal": "\"HappinessRank: \" + (format(datum[\"HappinessRank\"], \"\")) + \"; TotalAlcPerCapita: \" + (format(datum[\"TotalAlcPerCapita\"], \"\")) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; Happiness Rank: \" + (isValid(datum[\"HappinessRank\"]) ? datum[\"HappinessRank\"] : \"\"+datum[\"HappinessRank\"]) + \"; Total Consumption (per capita): \" + (format(datum[\"TotalAlcPerCapita\"], \"\"))"
+          },
+          "x": {"scale": "x", "field": "HappinessRank"},
+          "y": {"scale": "y", "field": "TotalAlcPerCapita"},
+          "text": {
+            "signal": "isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]"
+          }
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "x",
+      "type": "linear",
+      "domain": {"data": "source_0", "field": "HappinessRank"},
+      "range": [0, {"signal": "width"}],
+      "nice": true,
+      "zero": true
+    },
+    {
+      "name": "y",
+      "type": "linear",
+      "domain": {"data": "source_0", "field": "TotalAlcPerCapita"},
+      "range": [{"signal": "height"}, 0],
+      "nice": true,
+      "zero": true
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "source_0", "field": "Region", "sort": true},
+      "range": "category"
+    }
+  ],
+  "axes": [
+    {
+      "scale": "x",
+      "orient": "bottom",
+      "gridScale": "y",
+      "grid": true,
+      "tickCount": {"signal": "ceil(width/40)"},
+      "domain": false,
+      "labels": false,
+      "aria": false,
+      "maxExtent": 0,
+      "minExtent": 0,
+      "ticks": false,
+      "zindex": 0
+    },
+    {
+      "scale": "y",
+      "orient": "left",
+      "gridScale": "x",
+      "grid": true,
+      "tickCount": {"signal": "ceil(height/40)"},
+      "domain": false,
+      "labels": false,
+      "aria": false,
+      "maxExtent": 0,
+      "minExtent": 0,
+      "ticks": false,
+      "zindex": 0
+    },
+    {
+      "scale": "x",
+      "orient": "bottom",
+      "grid": false,
+      "title": "HappinessRank",
+      "labelAngle": 0,
+      "labelOverlap": "parity",
+      "labelBaseline": "top",
+      "labelFlush": true,
+      "tickCount": {"signal": "ceil(width/40)"},
+      "zindex": 0
+    },
+    {
+      "scale": "y",
+      "orient": "left",
+      "grid": false,
+      "title": "TotalAlcPerCapita",
+      "labelOverlap": "parity",
+      "tickCount": {"signal": "ceil(height/40)"},
+      "zindex": 0
+    }
+  ],
+  "legends": [
+    {
+      "fill": "color",
+      "symbolType": "circle",
+      "title": "Region",
+      "encode": {
+        "labels": {
+          "name": "Region_legend_labels",
+          "interactive": true,
+          "update": {
+            "opacity": [
+              {
+                "test": "(!length(data(\"region_select_store\")) || (region_select[\"Region\"] && indexof(region_select[\"Region\"], datum.value) >= 0))",
+                "value": 1
+              },
+              {"value": 0.35}
+            ]
+          }
+        },
+        "symbols": {
+          "name": "Region_legend_symbols",
+          "interactive": true,
+          "update": {
+            "opacity": [
+              {
+                "test": "(!length(data(\"region_select_store\")) || (region_select[\"Region\"] && indexof(region_select[\"Region\"], datum.value) >= 0))",
+                "value": 0.8
+              },
+              {"value": 0.35}
+            ]
+          }
+        },
+        "entries": {
+          "name": "Region_legend_entries",
+          "interactive": true,
+          "update": {"fill": {"value": "transparent"}}
+        }
+      }
+    }
+  ],
+  "config": {}
+}
