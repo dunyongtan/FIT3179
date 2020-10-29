@@ -1,0 +1,68 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "width": 400,
+  "height": 300,
+  "title": "Most corrupted government?",
+  "data": {
+    "url": "https://raw.githubusercontent.com/dunyongtan/FIT3179/main/Choropleth_map/data/2020.csv"
+  },
+  "transform": [
+    {"sort": [{"field": "Perceptionsofcorruption", "order": "descending"}]},
+    {"filter": "datum.HappinessRank >= 144"},
+    {
+      "calculate": "datum.Perceptionsofcorruption * 100",
+      "as": "Perceptionsofcorruption"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "Perceptionsofcorruption",
+      "type": "quantitative",
+      "title": "Perceptions Of Corruption (%)"
+    },
+    "y": {
+      "field": "Country",
+      "type": "nominal",
+      "sort": {"field": "Perceptionsofcorruption", "order": "descending"},
+      "title": "Country"
+    },
+    "color": {
+      "condition": {
+        "test": "datum.Country == 'Afghanistan'",
+        "value": "#2a3b90"
+      },
+      "value": "#ececec"
+    },
+    "tooltip": [
+      {"field": "Country", "type": "nominal", "title": "Country"},
+      {
+        "field": "Perceptionsofcorruption",
+        "type": "quantitative",
+        "title": "Perceptions Of Corruption(%)"
+      }
+    ]
+  },
+  "layer": [
+    {"mark": "bar"},
+    {
+      "mark": {
+        "type": "text",
+        "fontStyle": "italic",
+        "fontSize": 13,
+        "fontWeight": "bold",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 3
+      },
+      "transform": [{"filter": "datum.Country == 'Afghanistan'"}],
+      "encoding": {
+        "text": {
+          "field": "Perceptionsofcorruption",
+          "type": "nominal",
+          "format": ".1f"
+        }
+      }
+    }
+  ],
+  "config": {}
+}
