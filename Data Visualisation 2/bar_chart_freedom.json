@@ -29,7 +29,7 @@
     "color": {
       "condition": {
         "test": "datum.Country == 'Afghanistan'",
-        "value": "#2a3b90"
+        "value": "#ef6548"
       },
       "value": "#ececec"
     },
