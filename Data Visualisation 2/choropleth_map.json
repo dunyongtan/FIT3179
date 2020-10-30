@@ -65,7 +65,8 @@
           {
             "field": "HappinessScore",
             "type": "quantitative",
-            "title": "Happiness Score"
+            "title": "Happiness Score",
+            "format": ".2f"
           },
           {
             "field": "HappinessRank",
