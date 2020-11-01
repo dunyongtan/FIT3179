@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "width": 500,
+  "height": 400,
+  "title": "Life expectancy among war countries",
+  "data": {
+    "url": "https://raw.githubusercontent.com/dunyongtan/FIT3179/main/Data%20Visualisation%202/life_expectancy_war_countries.csv"
+  },
+  "layer": [
+    {
+      "mark": {"type": "line"},
+      "encoding": {
+        "color": {
+          "field": "Country",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Afghanistan", "Mexico", "Turkey", "Iraq", "Yemen"],
+            "range": ["#006d2c", "#7570b3", "#d95f02", "#1f78b4", "#a6761d"]
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontStyle": "italic",
+        "fontWeight": "bold",
+        "fontSize": 11,
+        "align": "center",
+        "baseline": "top",
+        "dy": -12
+      },
+      "transform": [{"filter": "datum['Country'] == 'Afghanistan'"}],
+      "encoding": {"text": {"field": "Life Expectancy", "format": ".2f"}}
+    }
+  ],
+  "encoding": {
+    "x": {
+      "timeUnit": "year",
+      "field": "Year",
+      "title": "Year",
+      "axis": {"tickCount": 7}
+    },
+    "y": {
+      "field": "Life Expectancy",
+      "type": "quantitative",
+      "title": "Life Expectancy(Age)",
+      "scale": {"type": "linear", "domain": [52, 70]},
+      "axis": {"tickCount": 7}
+    },
+    "tooltip": [
+      {"field": "Country", "type": "nominal", "title": "Country"},
+      {"field": "Year", "type": "temporal", "title": "Year"},
+      {
+        "field": "Life Expectancy",
+        "format": ".2f",
+        "type": "quantitative",
+        "title": "Life Expectancy(Age)"
+      }
+    ]
+  },
+  "config": {}
+}
