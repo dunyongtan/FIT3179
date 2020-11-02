@@ -37,7 +37,8 @@
       {
         "field": "Perceptionsofcorruption",
         "type": "quantitative",
-        "title": "Perceptions Of Corruption(%)"
+        "title": "Perceptions Of Corruption(%)",
+        "format": ".3f"
       }
     ]
   },
