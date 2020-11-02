@@ -45,7 +45,6 @@
       "field": "Life Expectancy",
       "type": "quantitative",
       "title": "Life Expectancy(Age)",
-      "scale": {"type": "linear", "domain": [52, 70]},
       "axis": {"tickCount": 7}
     },
     "tooltip": [
