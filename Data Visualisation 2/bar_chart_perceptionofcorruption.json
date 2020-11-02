@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-  "width": "300",
+  "width": "220",
   "title": "Most corrupted government?",
   "data": {
     "url": "https://raw.githubusercontent.com/dunyongtan/FIT3179/main/Choropleth_map/data/2020.csv"
