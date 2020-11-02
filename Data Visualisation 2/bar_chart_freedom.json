@@ -37,7 +37,8 @@
       {
         "field": "Free",
         "type": "quantitative",
-        "title": "Freedom to make life choices(%)"
+        "title": "Freedom to make life choices(%)",
+        "format": ".3f"
       }
     ]
   },
